@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Presto\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Presto\\.nuget\\packages"
+    ]
+  }
+}
