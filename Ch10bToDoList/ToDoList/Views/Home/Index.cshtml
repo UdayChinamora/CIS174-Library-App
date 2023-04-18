@@ -1,15 +1,15 @@
-﻿@model IEnumerable<ToDo>
+﻿@model IEnumerable<Book>
 @{
-    string Overdue(ToDo task) => task.Overdue ? "bg-warning" : "";
+    string Overdue(Book task) => task.Overdue ? "bg-warning" : "";
 }
 <div class="row">
     <div class="col-sm-2">
         <form asp-action="Filter" method="post">
             <div class="form-group">
-                <label>Category:</label>
+                <label>Genre:</label>
                 <select name="filter" class="form-control"
-                        asp-items="@(new SelectList(ViewBag.Categories,
-                    "CategoryId", "Name", ViewBag.Filters.CategoryId))">
+                        asp-items="@(new SelectList(ViewBag.Genres,
+                    "GenreId", "Name", ViewBag.Filters.GenreId))">
                     <option value="all">All</option>
                 </select>
             </div>
@@ -35,25 +35,33 @@
     </div>
     <div class="col-sm-10">
 
-        <a asp-action="Add"><b>Add new task</b></a>
+        <a asp-action="Add"><b>Add new Book</b></a>
+        
 
         <table class="table table-bordered table-striped mt-2">
             <thead>
                 <tr>
-                    <th>Description</th>
-                    <th>Category</th>
+                    <th>ISBN</th>
+                   <th>Title</th>
+                    <th>Genre</th>
+                    <th>Author</th>
+                    <th>Location</th>
                     <th>Due Date</th>
                     <th>Status</th>
                     <th class="w-25"></th>
                 </tr>
             </thead>
             <tbody>
-            @foreach (ToDo task in Model)
+            @foreach (Book task in Model)
             {
                 string overdue = Overdue(task);
                 <tr>
-                    <td>@task.Description</td>
-                    <td>@task.Category.Name</td>
+                    <td>@task.ISBN</td>
+                        <td>@task.Title</td>
+                        
+                    <td>@task.Genre.Name</td>
+                        <td>@task.Author</td>
+                        <td>@task.Location</td>
                     <td class="@overdue">@task.DueDate?.ToShortDateString()</td>
                     <td class="@overdue">@task.Status.Name</td>
                     <td>
@@ -62,15 +70,13 @@
                               class="mr-2">
 
                             <input type="hidden" 
-                                   name="@nameof(ToDo.Id)" value="@task.Id" />
+                                   name="@nameof(Book.Id)" value="@task.Id" />
 
-                            <button type="submit" 
-                                    name="@nameof(ToDo.StatusId)" value="closed"
-                                    class="btn btn-primary btn-sm">Completed
-                            </button>
-                            
-                            <button type="submit" 
-                                    class="btn btn-primary btn-sm">Delete
+                           
+                                <br><br>
+                            <button type="submit"
+                                        class="btn btn-primary">
+                                    Delete
                             </button>
                         </form>
                     </td>

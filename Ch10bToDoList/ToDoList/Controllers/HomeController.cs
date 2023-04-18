@@ -16,15 +16,15 @@ namespace ToDoList.Controllers
             // load current filters and data needed for filter drop downs in ViewBag
             var filters = new Filters(id);
             ViewBag.Filters = filters;
-            ViewBag.Categories = context.Categories.ToList();
+            ViewBag.Genres = context.Genres.ToList();
             ViewBag.Statuses = context.Statuses.ToList();
             ViewBag.DueFilters = Filters.DueFilterValues;
 
             // get ToDo objects from database based on current filters
-            IQueryable<ToDo> query = context.ToDos
-                .Include(t => t.Category).Include(t => t.Status);
-            if (filters.HasCategory) {
-                query = query.Where(t => t.CategoryId == filters.CategoryId);
+            IQueryable<Book> query = context.Books
+                .Include(t => t.Genre).Include(t => t.Status);
+            if (filters.HasGenre) {
+                query = query.Where(t => t.GenreId == filters.GenreId);
             }
             if (filters.HasStatus) {
                 query = query.Where(t => t.StatusId == filters.StatusId);
@@ -44,23 +44,23 @@ namespace ToDoList.Controllers
 
         public IActionResult Add()
         {
-            ViewBag.Categories = context.Categories.ToList();
+            ViewBag.Genres = context.Genres.ToList();
             ViewBag.Statuses = context.Statuses.ToList();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Add(ToDo task)
+        public IActionResult Add(Book task)
         {
             if (ModelState.IsValid)
             {
-                context.ToDos.Add(task);
+                context.Books.Add(task);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
             {
-                ViewBag.Categories = context.Categories.ToList();
+                ViewBag.Genres = context.Genres.ToList();
                 ViewBag.Statuses = context.Statuses.ToList();
                 return View(task);
             }
@@ -74,16 +74,16 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute]string id, ToDo selected)
+        public IActionResult Edit([FromRoute]string id, Book selected)
         {
             if (selected.StatusId == null) {
-                context.ToDos.Remove(selected);
+                context.Books.Remove(selected);
             }
             else {
                 string newStatusId = selected.StatusId;
-                selected = context.ToDos.Find(selected.Id);
+                selected = context.Books.Find(selected.Id);
                 selected.StatusId = newStatusId;
-                context.ToDos.Update(selected);
+                context.Books.Update(selected);
             }
             context.SaveChanges();
 

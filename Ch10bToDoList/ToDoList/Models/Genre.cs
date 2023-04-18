@@ -1,8 +1,8 @@
 ﻿namespace ToDoList.Models
 {
-    public class Category
+    public class Genre
     {
-        public string CategoryId { get; set; }
+        public string GenreId { get; set; }
         public string Name { get; set; }
     }
 }
