@@ -7,22 +7,25 @@ namespace ToDoList.Models
         public ToDoContext(DbContextOptions<ToDoContext> options)
             : base(options) { }
 
-        public DbSet<ToDo> ToDos { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Genre> Genres { get; set; }
         public DbSet<Status> Statuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>().HasData(
-                new Category { CategoryId = "work", Name = "Work" },
-                new Category { CategoryId = "home", Name = "Home" },
-                new Category { CategoryId = "ex", Name = "Exercise" },
-                new Category { CategoryId = "shop", Name = "Shopping" },
-                new Category { CategoryId = "call", Name = "Contact" }
+            modelBuilder.Entity<Genre>().HasData(
+                new Genre { GenreId = "1", Name = "Fiction" },
+                new Genre { GenreId = "2", Name = "Non-Fiction" },
+                new Genre { GenreId = "3", Name = "Children" },
+                new Genre { GenreId = "4", Name = "Other" }
+               
             );
             modelBuilder.Entity<Status>().HasData(
-                new Status { StatusId = "open", Name = "Open" },
-                new Status { StatusId = "closed", Name = "Completed" }
+                new Status { StatusId = "available", Name = "Available" },
+                new Status { StatusId = "checked", Name = "Checked" },
+                 new Status { StatusId = "returned", Name = "Returned" }
+                
+
             );
         }
     }

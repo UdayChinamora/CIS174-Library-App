@@ -4,17 +4,48 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <title>My Tasks</title>
+    <title>Books List</title>
+    <style>
+
+        #h1{
+            background-image: url("https://miro.medium.com/max/10944/1*S81O15rjKfG-BFdnNC6-GQ.jpeg");
+        }
+
+        footer {
+            text-align: center;
+            padding: 3px;
+            background-color: DarkSalmon;
+            color: white;
+        }
+
+    
+    </style>
 </head>
 <body>
     <div class="container">
+        <img src="https://images.pexels.com/photos/1130980/pexels-photo-1130980.jpeg?cs=srgb&dl=assortment-book-bindings-books-1130980.jpg&fm=jpg" alt="Books" width="1200" height="300">
         <header class="bg-primary text-white text-center">
-            <h1 class="m-3 p-3">My Tasks</h1>
+            <h1 id="h1" class="m-3 p-3">My Books</h1>
         </header>
         <main>
             @RenderBody()
         </main>
     </div>
+    <br />
+    <br />
+    
+    
+
+    <footer>
+        <p>
+            Developed by:
+            <a href="mailto:uchinamhora@gmail.com">Uday F Chinhamora</a>
+            <a href="mailto:pmmesecher@dmacc.edu">Mesecher, Preston M</a>
+            <a href="mailto:agmccoy@dmacc.edu">McCoy, Andrew G</a>
+            <img src="https://www.eroe.co/wp-content/uploads/2020/08/DMCC-logo.png" />
+            
+        </p>
+    </footer>
     
 </body>
 </html>

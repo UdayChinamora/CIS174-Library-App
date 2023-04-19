@@ -1,23 +1,22 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Ch10ToDoList.Migrations
+namespace ToDoList.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Genres",
                 columns: table => new
                 {
-                    CategoryId = table.Column<string>(nullable: false),
+                    GenreId = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.PrimaryKey("PK_Genres", x => x.GenreId);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,43 +32,45 @@ namespace Ch10ToDoList.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ToDos",
+                name: "Books",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ISBN = table.Column<string>(maxLength: 13, nullable: true),
+                    Title = table.Column<string>(nullable: false),
                     DueDate = table.Column<DateTime>(nullable: false),
-                    CategoryId = table.Column<string>(nullable: false),
-                    StatusId = table.Column<string>(nullable: true)
+                    Author = table.Column<string>(nullable: false),
+                    GenreId = table.Column<string>(nullable: false),
+                    Location = table.Column<string>(nullable: false),
+                    StatusId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ToDos", x => x.Id);
+                    table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ToDos_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
+                        name: "FK_Books_Genres_GenreId",
+                        column: x => x.GenreId,
+                        principalTable: "Genres",
+                        principalColumn: "GenreId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ToDos_Statuses_StatusId",
+                        name: "FK_Books_Statuses_StatusId",
                         column: x => x.StatusId,
                         principalTable: "Statuses",
                         principalColumn: "StatusId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "CategoryId", "Name" },
+                table: "Genres",
+                columns: new[] { "GenreId", "Name" },
                 values: new object[,]
                 {
-                    { "work", "Work" },
-                    { "home", "Home" },
-                    { "ex", "Exercise" },
-                    { "shop", "Shopping" },
-                    { "call", "Contact" }
+                    { "1", "Fiction" },
+                    { "2", "Non-Fiction" },
+                    { "3", "Children" },
+                    { "4", "Other" }
                 });
 
             migrationBuilder.InsertData(
@@ -77,28 +78,29 @@ namespace Ch10ToDoList.Migrations
                 columns: new[] { "StatusId", "Name" },
                 values: new object[,]
                 {
-                    { "open", "Open" },
-                    { "closed", "Completed" }
+                    { "available", "Available" },
+                    { "checked", "Checked" },
+                    { "returned", "Returned" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ToDos_CategoryId",
-                table: "ToDos",
-                column: "CategoryId");
+                name: "IX_Books_GenreId",
+                table: "Books",
+                column: "GenreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ToDos_StatusId",
-                table: "ToDos",
+                name: "IX_Books_StatusId",
+                table: "Books",
                 column: "StatusId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ToDos");
+                name: "Books");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Statuses");
