@@ -50,11 +50,13 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Book task)
+        public IActionResult Add(Book book)
         {
             if (ModelState.IsValid)
             {
-                context.Books.Add(task);
+                var isbnLargest = context.Books.Max(x => x.ISBN);
+				book.ISBN = isbnLargest + 15;				
+				context.Books.Add(book);                
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -62,7 +64,7 @@ namespace ToDoList.Controllers
             {
                 ViewBag.Genres = context.Genres.ToList();
                 ViewBag.Statuses = context.Statuses.ToList();
-                return View(task);
+                return View(book);
             }
         }
 
