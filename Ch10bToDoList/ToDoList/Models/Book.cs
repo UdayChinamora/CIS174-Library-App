@@ -31,6 +31,6 @@ namespace ToDoList.Models
         public Status Status { get; set; }
 
         public bool Overdue => 
-            StatusId == "available" && DueDate < DateTime.Today;
+         StatusId == "available" && DueDate < DateTime.Today;
     }
 }
