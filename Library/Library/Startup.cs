@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Library.Models;
+using Microsoft.Extensions.Options;
 
 namespace Library
 {
@@ -27,6 +28,7 @@ namespace Library
 
             services.AddDbContext<LibraryContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LibraryContext")));
+
         }
 
         // Use this method to configure the HTTP request pipeline.
