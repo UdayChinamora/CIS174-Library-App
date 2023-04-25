@@ -1,4 +1,0 @@
-﻿
-
-Select * From Genres;
-
