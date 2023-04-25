@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.github",
+    "\\Library"
   ],
-  "SelectedNode": "\\Library.sln",
+  "SelectedNode": "\\Library\\Library.sln",
   "PreviewInSolutionExplorer": false
 }

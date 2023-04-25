@@ -5,10 +5,10 @@ on:
     - main
 env:
   AZURE_WEBAPP_NAME: CIS174DMACCPMesecher
-  AZURE_WEBAPP_PACKAGE_PATH: ToDoList\published
+  AZURE_WEBAPP_PACKAGE_PATH: Library\published
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 5.0.x
-  WORKING_DIRECTORY: ToDoList
+  WORKING_DIRECTORY: Library
 jobs:
   build:
     runs-on: windows-latest
@@ -45,5 +45,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.CIS174DMACCPMesecher_9A4D }}
+        publish-profile: ${{ secrets.CIS174DMACCPMesecher_2199 }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
