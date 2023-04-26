@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>f3710ad3-598a-47b5-9655-dd71a653a25a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +10,8 @@
     <Compile Remove="Migrations\20230425023918_Initial.Designer.cs" />
     <Compile Remove="Migrations\20230425132201_Initial.cs" />
     <Compile Remove="Migrations\20230425132201_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20230425150749_InitialCreate.cs" />
+    <Compile Remove="Migrations\20230425150749_InitialCreate.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
