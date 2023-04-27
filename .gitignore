@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Library/Library/Migrations/20230427010745_updating database name.cs
+/Library/Library/Migrations/20230427010745_updating database name.Designer.cs
+/Library/Library/appsettings.json
