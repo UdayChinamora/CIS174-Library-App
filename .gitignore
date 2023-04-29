@@ -5,3 +5,7 @@
 /Library/Library/Migrations/20230427010745_updating database name.cs
 /Library/Library/Migrations/20230427010745_updating database name.Designer.cs
 /Library/Library/appsettings.json
+/Library/Library/Migrations/20230428223514_AddIdentityTables.cs
+/Library/Library/Migrations/20230429091008_createadmin.cs
+/Library/Library/Migrations/20230429091008_createadmin.Designer.cs
+/Library/Library/Migrations/20230428223514_AddIdentityTables.Designer.cs
