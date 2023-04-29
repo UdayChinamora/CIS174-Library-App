@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Library.Models;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
 
 namespace Library
 {
@@ -23,6 +23,14 @@ namespace Library
                 options.LowercaseUrls = true;
                 options.AppendTrailingSlash = true;
             });
+            
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = true;
+            }).AddEntityFrameworkStores<LibraryContext>()
+              .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
 
@@ -36,16 +44,30 @@ namespace Library
         {
             app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
+            app.UseStaticFiles();         
+            
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            LibraryContext.CreateAdminUser(app.ApplicationServices).Wait();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+
+                endpoints.MapControllerRoute(
+                    name: "login",
+                    pattern: "{controller=Account}/{action=Login}");
+
+                endpoints.MapControllerRoute(
+                    name: "allUsers",
+                    pattern: "{controller=User}/{action=AllUsers}");
+            });          
+            
+
         }
     }
 }
