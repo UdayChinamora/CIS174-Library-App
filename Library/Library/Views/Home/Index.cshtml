@@ -34,15 +34,15 @@
         </form>
     </div>
     <div class="col-sm-10">
-
-        <a asp-action="Add"><b>Add new Book</b></a>
-        
+        @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+        {
+            <a asp-action="Add"><b>Add new Book</b></a>
+        }
 
         <table class="table table-bordered table-striped mt-2">
             <thead>
                 <tr>
-                    <th>ISBN</th>
-                   <th>Title</th>
+                    <th>Title</th>
                     <th>Genre</th>
                     <th>Author</th>
                     <th>Location</th>
@@ -56,15 +56,22 @@
             {
                 string overdue = Overdue(task);
                 <tr>
-                    <td>@task.ISBN</td>
                         <td>@task.Title</td>
                         
                     <td>@task.Genre.Name</td>
                         <td>@task.Author</td>
                         <td>@task.Location</td>
-                    <td class="@overdue">@task.DueDate?.ToShortDateString()</td>
-                    <td class="@overdue">@task.Status.Name</td>
-                    <td>
+                        @if (task.Status.Name == ("Checked out"))
+                        {
+                            <td class="@overdue">@task.DueDate?.ToShortDateString()</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                            <td class="@overdue">@task.Status.Name</td>
+                            <td>
+
                         <form asp-action="Edit" method="post" 
                               asp-route-id="@ViewBag.Filters.FilterString" 
                               class="mr-2">
@@ -72,13 +79,41 @@
                             <input type="hidden" 
                                    name="@nameof(Book.Id)" value="@task.Id" />
 
-                           
-                                <br><br>
+                            @if (task.Status.Name == ("Available"))
+                            {
                             <button type="submit"
-                                        class="btn btn-primary">
-                                    Delete
+                                name="@nameof(Book.StatusId)" value="checked"
+                                class="btn btn-primary">
+                                Check out
                             </button>
-                        </form>
+                            }
+                            @if (task.Status.Name == ("Checked out"))
+                            {
+                            <button type="submit"
+                                name="@nameof(Book.StatusId)" value="returned"
+                                class="btn btn-primary">
+                                Return
+                            </button>
+                            }
+
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                         {
+                                    @if (task.Status.Name == ("Returned"))
+                                    {
+                                        <button type="submit" 
+                                            name="@nameof(Book.StatusId)" value="available"
+                                            class="btn btn-primary">Confirm
+                                        </button>
+                                    }
+                                    <button type="submit"
+                                                class="btn btn-primary">
+                                            Delete
+                                    </button>
+                        
+                        
+                        }
+                            </form>
                     </td>
                 </tr>
             }

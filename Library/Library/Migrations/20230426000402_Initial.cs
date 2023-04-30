@@ -79,7 +79,7 @@ namespace Library.Migrations
                 values: new object[,]
                 {
                     { "available", "Available" },
-                    { "checked", "Checked" },
+                    { "checked", "Checked out" },
                     { "returned", "Returned" }
                 });
 

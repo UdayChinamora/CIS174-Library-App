@@ -36,7 +36,7 @@ namespace Library.Models
             {
                 entity.HasData(
                         new Status { StatusId = "available", Name = "Available" },
-                        new Status { StatusId = "checked", Name = "Checked" },
+                        new Status { StatusId = "checked", Name = "Checked out" },
                         new Status { StatusId = "returned", Name = "Returned" }
                 );
             }

@@ -121,7 +121,7 @@ namespace Library.Migrations
                         new
                         {
                             StatusId = "checked",
-                            Name = "Checked"
+                            Name = "Checked out"
                         },
                         new
                         {

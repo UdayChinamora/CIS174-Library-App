@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Library.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         private LibraryContext context;
@@ -56,8 +56,16 @@ namespace Library.Controllers
             if (ModelState.IsValid)
             {
                 var isbnLargest = context.Books.Max(x => x.ISBN);
-				book.ISBN = isbnLargest + 15;				
-				context.Books.Add(book);                
+                book.ISBN = isbnLargest + 15;
+                if ((!book.DueDate.HasValue) || (book.StatusId != "checked"))
+                {
+                    book.DueDate = new DateTime();
+                }
+                if ((!book.DueDate.HasValue) || (book.StatusId == "checked"))
+                {
+                    book.DueDate = DateTime.Now.AddDays(15);
+                }
+                context.Books.Add(book);                
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -77,15 +85,24 @@ namespace Library.Controllers
         }
 
         [HttpPost]
+
         public IActionResult Edit([FromRoute]string id, Book selected)
         {
             if (selected.StatusId == null) {
-                context.Books.Remove(selected);
+              context.Books.Remove(selected);
             }
             else {
                 string newStatusId = selected.StatusId;
                 selected = context.Books.Find(selected.Id);
                 selected.StatusId = newStatusId;
+                if (newStatusId == "checked")
+                {
+                    selected.DueDate = DateTime.Now.AddDays(15);
+                }
+                if (newStatusId == "returned")
+                {
+                    selected.DueDate = new DateTime();
+                }
                 context.Books.Update(selected);
             }
             context.SaveChanges();

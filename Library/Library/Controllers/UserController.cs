@@ -40,6 +40,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
+
         public async Task<IActionResult> Delete(string id)
         {
             User user = await _userManager.FindByIdAsync(id); if (user != null)
@@ -72,12 +73,34 @@ namespace Library.Controllers
             }
             return RedirectToAction("AllUsers");
         }
+        [HttpPost]
+        public async Task<IActionResult> AddToLibrarian(string id)
+        {
+            IdentityRole librarianRole = await _roleManager.FindByNameAsync("Librarian");
+            if (librarianRole == null)
+            {
+                TempData["message"] = "Librarian role does not exist. " + "Click 'Create Librarian Role' button to create it.";
+            }
+            else
+            {
+                User user = await _userManager.FindByIdAsync(id);
+                await _userManager.AddToRoleAsync(user, librarianRole.Name);
+            }
+            return RedirectToAction("AllUsers");
+        }
 
         [HttpPost]
         public async Task<IActionResult> RemoveFromAdmin(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
             await _userManager.RemoveFromRoleAsync(user, "Admin");
+            return RedirectToAction("AllUsers");
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromLibrarian(string id)
+        {
+            User user = await _userManager.FindByIdAsync(id);
+            await _userManager.RemoveFromRoleAsync(user, "Librarian");
             return RedirectToAction("AllUsers");
         }
         [HttpPost]
@@ -91,6 +114,12 @@ namespace Library.Controllers
         public async Task<IActionResult> CreateAdminRole()
         {
             await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            return RedirectToAction("AllUsers");
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateLibrarianRole()
+        {
+            await _roleManager.CreateAsync(new IdentityRole("Librarian"));
             return RedirectToAction("AllUsers");
         }
     }

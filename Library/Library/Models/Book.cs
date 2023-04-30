@@ -13,7 +13,6 @@ namespace Library.Models
         [Required(ErrorMessage = "Please enter title")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "Please enter due date")]
         public DateTime? DueDate { get; set; }
 
         [Required(ErrorMessage = "Please enter Author")]
@@ -31,6 +30,6 @@ namespace Library.Models
         public Status Status { get; set; }
 
         public bool Overdue => 
-         StatusId == "available" && DueDate < DateTime.Today;
+         StatusId == "checked" && DueDate < DateTime.Today;
     }
 }
