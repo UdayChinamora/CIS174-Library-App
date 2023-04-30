@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<Book>
+@inject Microsoft.AspNetCore.Identity.SignInManager<Library.Models.User> signInManager
+
 @{
     string Overdue(Book task) => task.Overdue ? "bg-warning" : "";
 }
+@if (signInManager.IsSignedIn(User))
+{
 <div class="row">
     <div class="col-sm-2">
         <form asp-action="Filter" method="post">
@@ -48,6 +52,7 @@
                     <th>Location</th>
                     <th>Due Date</th>
                     <th>Status</th>
+                    <th>Owner</th>
                     <th class="w-25"></th>
                 </tr>
             </thead>
@@ -70,6 +75,7 @@
                             <td></td>
                         }
                             <td class="@overdue">@task.Status.Name</td>
+                            <td>@task.Owner</td>
                             <td>
 
                         <form asp-action="Edit" method="post" 
@@ -87,15 +93,17 @@
                                 Check out
                             </button>
                             }
-                            @if (task.Status.Name == ("Checked out"))
-                            {
-                            <button type="submit"
-                                name="@nameof(Book.StatusId)" value="returned"
-                                class="btn btn-primary">
-                                Return
-                            </button>
-                            }
-
+                                    @if (task.Status.Name == ("Checked out"))
+                                    {
+                                        @if ((User.Identity.Name == task.Owner) || User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                                            {
+                                            <button type="submit"
+                                                name="@nameof(Book.StatusId)" value="returned"
+                                                class="btn btn-primary">
+                                                Return
+                                            </button>
+                                        }
+                                    }
 
                         @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
                          {
@@ -121,3 +129,8 @@
         </table>
     </div>
 </div>
+}
+else
+{
+    <h3>Register and Login to view library</h3>
+}

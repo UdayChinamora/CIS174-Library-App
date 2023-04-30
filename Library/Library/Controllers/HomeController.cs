@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Library.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Hosting;
 
 namespace Library.Controllers
 {
@@ -97,17 +99,24 @@ namespace Library.Controllers
                 selected.StatusId = newStatusId;
                 if (newStatusId == "checked")
                 {
+                    selected.Owner = User.Identity.Name;
                     selected.DueDate = DateTime.Now.AddDays(15);
                 }
                 if (newStatusId == "returned")
                 {
                     selected.DueDate = new DateTime();
                 }
+                if (newStatusId == "available")
+                {
+                    selected.Owner = "";
+                }
+
                 context.Books.Update(selected);
             }
             context.SaveChanges();
 
             return RedirectToAction("Index", new { ID = id });
         }
+
     }
 }

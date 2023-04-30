@@ -28,6 +28,7 @@ namespace Library.Models
         [Required(ErrorMessage = "Please select a status.")]
         public string StatusId { get; set; }
         public Status Status { get; set; }
+        public string Owner { get; set; }
 
         public bool Overdue => 
          StatusId == "checked" && DueDate < DateTime.Today;
