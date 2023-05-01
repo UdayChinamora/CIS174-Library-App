@@ -12,6 +12,7 @@ namespace Library.Controllers
     //[Authorize]
     public class HomeController : Controller
     {
+
         private LibraryContext context;
         public HomeController(LibraryContext ctx) => context = ctx;
 
@@ -26,13 +27,16 @@ namespace Library.Controllers
 
             IQueryable<Book> query = context.Books
                 .Include(t => t.Genre).Include(t => t.Status);
-            if (filters.HasGenre) {
+            if (filters.HasGenre)
+            {
                 query = query.Where(t => t.GenreId == filters.GenreId);
             }
-            if (filters.HasStatus) {
+            if (filters.HasStatus)
+            {
                 query = query.Where(t => t.StatusId == filters.StatusId);
             }
-            if (filters.HasDue) {
+            if (filters.HasDue)
+            {
                 var today = DateTime.Today;
                 if (filters.IsPast)
                     query = query.Where(t => t.DueDate < today);
@@ -57,8 +61,8 @@ namespace Library.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isbnLargest = context.Books.Max(x => x.ISBN);
-                book.ISBN = isbnLargest + 15;
+                //var isbnLargest = context.Books.Max(x => x.ISBN);
+                //book.ISBN = isbnLargest + 15;
                 if ((!book.DueDate.HasValue) || (book.StatusId != "checked"))
                 {
                     book.DueDate = new DateTime();
@@ -67,7 +71,7 @@ namespace Library.Controllers
                 {
                     book.DueDate = DateTime.Now.AddDays(15);
                 }
-                context.Books.Add(book);                
+                context.Books.Add(book);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -88,12 +92,16 @@ namespace Library.Controllers
 
         [HttpPost]
 
-        public IActionResult Edit([FromRoute]string id, Book selected)
+        public IActionResult Edit([FromRoute] string id, Book selected)
         {
-            if (selected.StatusId == null) {
-              context.Books.Remove(selected);
+            if (selected.StatusId == null)
+            {
+
+                context.Books.Remove(selected);
+
             }
-            else {
+            else
+            {
                 string newStatusId = selected.StatusId;
                 selected = context.Books.Find(selected.Id);
                 selected.StatusId = newStatusId;
@@ -117,6 +125,35 @@ namespace Library.Controllers
 
             return RedirectToAction("Index", new { ID = id });
         }
+
+        [HttpGet]
+        public ActionResult Change([FromRoute] int id)
+        {
+            ViewBag.Users = context.Users.OrderBy(u => u.UserName).ToList();
+            ViewBag.Genres = context.Genres.OrderBy(g => g.Name).ToList();
+            ViewBag.Statuses = context.Statuses.OrderBy(s => s.Name).ToList();
+            var book = context.Books.Find(id);
+            return View(book);
+        }
+
+        [HttpPost]
+        public IActionResult Change([FromRoute] string id, Book selected)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Books.Update(selected);
+                context.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View(selected);
+            }
+
+        }
+
+
+
 
     }
 }

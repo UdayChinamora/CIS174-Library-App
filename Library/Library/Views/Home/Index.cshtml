@@ -46,6 +46,7 @@
         <table class="table table-bordered table-striped mt-2">
             <thead>
                 <tr>
+
                     <th>Title</th>
                     <th>Genre</th>
                     <th>Author</th>
@@ -61,8 +62,11 @@
             {
                 string overdue = Overdue(task);
                 <tr>
-                        <td>@task.Title</td>
-                        
+
+
+
+                    <td>@task.Title</td>
+
                     <td>@task.Genre.Name</td>
                         <td>@task.Author</td>
                         <td>@task.Location</td>
@@ -114,6 +118,7 @@
                                             class="btn btn-primary">Confirm
                                         </button>
                                     }
+
                                     <button type="submit"
                                                 class="btn btn-primary">
                                             Delete
@@ -122,6 +127,22 @@
                         
                         }
                             </form>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                                {
+                                <form asp-action="Change" method="get" 
+                                    asp-route-id="@task.Id" 
+                                    class="mr-2">
+
+                                    <input type="hidden" 
+                                        name="@nameof(Book.Id)" value="@task.Id" />
+
+                                    <button type="submit"
+                                        class="btn btn-primary">
+                                        Edit
+                                    </button>
+                                
+                            </form>
+                                }
                     </td>
                 </tr>
             }
