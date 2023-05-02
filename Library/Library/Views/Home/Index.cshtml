@@ -46,7 +46,7 @@
         <table class="table table-bordered table-striped mt-2">
             <thead>
                 <tr>
-
+                    <th>ISBN</th>
                     <th>Title</th>
                     <th>Genre</th>
                     <th>Author</th>
@@ -58,28 +58,28 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach (Book task in Model)
+            @foreach (Book book in Model)
             {
-                string overdue = Overdue(task);
+                string overdue = Overdue(book);
                 <tr>
 
+                    <td>@book.ISBN</td>
 
+                    <td>@book.Title</td>
 
-                    <td>@task.Title</td>
-
-                    <td>@task.Genre.Name</td>
-                        <td>@task.Author</td>
-                        <td>@task.Location</td>
-                        @if (task.Status.Name == ("Checked out"))
+                    <td>@book.Genre.Name</td>
+                        <td>@book.Author</td>
+                        <td>@book.Location</td>
+                        @if (book.Status.Name == ("Checked out"))
                         {
-                            <td class="@overdue">@task.DueDate?.ToShortDateString()</td>
+                            <td class="@overdue">@book.DueDate?.ToShortDateString()</td>
                         }
                         else
                         {
                             <td></td>
                         }
-                            <td class="@overdue">@task.Status.Name</td>
-                            <td>@task.Owner</td>
+                            <td class="@overdue">@book.Status.Name</td>
+                            <td>@book.Owner</td>
                             <td>
 
                         <form asp-action="Edit" method="post" 
@@ -87,62 +87,56 @@
                               class="mr-2">
 
                             <input type="hidden" 
-                                   name="@nameof(Book.Id)" value="@task.Id" />
+                                   name="@nameof(Book.Id)" value="@book.Id" />
 
-                            @if (task.Status.Name == ("Available"))
+                            @if (book.Status.Name == ("Available"))
                             {
                             <button type="submit"
-                                name="@nameof(Book.StatusId)" value="checked"
-                                class="btn btn-primary">
+                                name="@nameof(Book.StatusId)" value="checked" class="btn btn-primary m-2">
                                 Check out
                             </button>
                             }
-                                    @if (task.Status.Name == ("Checked out"))
+                            @if (book.Status.Name == ("Checked out"))
+                            {
+                                @if ((User.Identity.Name == book.Owner) || User.IsInRole("Admin") || User.IsInRole("Librarian"))
                                     {
-                                        @if ((User.Identity.Name == task.Owner) || User.IsInRole("Admin") || User.IsInRole("Librarian"))
-                                            {
-                                            <button type="submit"
-                                                name="@nameof(Book.StatusId)" value="returned"
-                                                class="btn btn-primary">
-                                                Return
-                                            </button>
-                                        }
-                                    }
-
+                                    <button type="submit"
+                                                    name="@nameof(Book.StatusId)" value="returned" class="btn btn-primary m-2">
+                                        Return
+                                    </button>
+                                }
+                            }
                         @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
                          {
-                                    @if (task.Status.Name == ("Returned"))
-                                    {
-                                        <button type="submit" 
-                                            name="@nameof(Book.StatusId)" value="available"
-                                            class="btn btn-primary">Confirm
-                                        </button>
-                                    }
+                            @if (book.Status.Name == ("Returned"))
+                            {
+                                <button type="submit" 
+                                                    name="@nameof(Book.StatusId)" value="available" class="btn btn-primary m-2">
+                                                Confirm
+                                </button>
+                            }
 
-                                    <button type="submit"
-                                                class="btn btn-primary">
-                                            Delete
-                                    </button>
-                        
-                        
+                            <button type="submit"
+                                                class="btn btn-primary m-2">
+                                    Delete
+                            </button>                                                
                         }
-                            </form>
-                                @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
-                                {
-                                <form asp-action="Change" method="get" 
-                                    asp-route-id="@task.Id" 
-                                    class="mr-2">
+                        </form>
+                            @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                            {
+                            <form asp-action="Change" method="get" 
+                                asp-route-id="@book.Id" 
+                                class="mr-2">
 
-                                    <input type="hidden" 
-                                        name="@nameof(Book.Id)" value="@task.Id" />
+                                <input type="hidden" 
+                                    name="@nameof(Book.Id)" value="@book.Id" />
 
-                                    <button type="submit"
-                                        class="btn btn-primary">
-                                        Edit
-                                    </button>
+                                        <button type="submit" class="btn btn-primary m-2">
+                                    Edit
+                                </button>
                                 
-                            </form>
-                                }
+                        </form>
+                            }
                     </td>
                 </tr>
             }
