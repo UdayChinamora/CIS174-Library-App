@@ -24,8 +24,7 @@ namespace Library.Models
         
         [Required(ErrorMessage = "Please enter Author")]
         public string Location { get; set; }
-
-        [Required(ErrorMessage = "Please select a status.")]
+        
         public string StatusId { get; set; }
         public Status Status { get; set; }
         public string Owner { get; set; }
