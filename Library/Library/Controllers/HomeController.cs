@@ -6,6 +6,7 @@ using Library.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
+using System.Text;
 
 namespace Library.Controllers
 {
@@ -60,14 +61,11 @@ namespace Library.Controllers
         public IActionResult Add(Book book)
         {
             if (ModelState.IsValid)
-            {
-                //var isbnLargest = context.Books.Max(x => x.ISBN);
-                //book.ISBN = isbnLargest + 15;
-                if ((!book.DueDate.HasValue) || (book.StatusId != "checked"))
-                {
-                    book.DueDate = new DateTime();
-                }
-                if ((!book.DueDate.HasValue) || (book.StatusId == "checked"))
+            {                               
+                Random rand = new Random(13);                
+                book.ISBN = Convert.ToString(rand.Next());
+                book.StatusId = "available";
+                if ((!book.DueDate.HasValue))
                 {
                     book.DueDate = DateTime.Now.AddDays(15);
                 }

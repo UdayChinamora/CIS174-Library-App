@@ -45,8 +45,7 @@
 
         <table class="table table-bordered table-striped mt-2">
             <thead>
-                <tr>
-                    <th>ISBN</th>
+                <tr>                    
                     <th>Title</th>
                     <th>Genre</th>
                     <th>Author</th>
@@ -61,9 +60,7 @@
             @foreach (Book book in Model)
             {
                 string overdue = Overdue(book);
-                <tr>
-
-                    <td>@book.ISBN</td>
+                <tr>                    
 
                     <td>@book.Title</td>
 
@@ -110,20 +107,17 @@
                          {
                             @if (book.Status.Name == ("Returned"))
                             {
-                                <button type="submit" 
-                                                    name="@nameof(Book.StatusId)" value="available" class="btn btn-primary m-2">
-                                                Confirm
+                                <button type="submit" name="@nameof(Book.StatusId)" value="available" class="btn btn-primary m-2">
+                                    Confirm
                                 </button>
                             }
-
-                            <button type="submit"
-                                                class="btn btn-primary m-2">
-                                    Delete
+                            <button type="submit" class="btn btn-primary m-2">
+                                Delete
                             </button>                                                
                         }
                         </form>
-                            @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
-                            {
+                        @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                        {
                             <form asp-action="Change" method="get" 
                                 asp-route-id="@book.Id" 
                                 class="mr-2">
@@ -135,8 +129,8 @@
                                     Edit
                                 </button>
                                 
-                        </form>
-                            }
+                            </form>
+                        }
                     </td>
                 </tr>
             }
