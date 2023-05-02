@@ -29,24 +29,24 @@
                     </td>
                     <td>
                         <form method="post" asp-area="Admin" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">
-                            <button class="btn btn-primary" onclick="return confirm('Are you sure you would like to delete user?')">Delete User</button>
+                            <button class="btn btn-primary m-1" onclick="return confirm('Are you sure you would like to delete user?')">Delete User</button>
                         </form>
                     </td>
 
                             <td>
                                 <form method="post" asp-action="AddToAdmin" asp-route-id="@user.Id">
-                                    <button type="submit" class="btn btn-primary"> Add To Admin</button>
+                            <button type="submit" class="btn btn-primary m-1"> Add To Admin</button>
                                 </form>
                                 <form method="post" asp-action="RemoveFromAdmin" asp-route-id="@user.Id">
-                                    <button type="submit" class="btn btn-primary"> Remove From Admin</button>
+                            <button type="submit" class="btn btn-primary m-1"> Remove From Admin</button>
                                 </form>
                             </td>
                             <td>
                                 <form method="post" asp-action="AddToLibrarian" asp-route-id="@user.Id">
-                                    <button type="submit" class="btn btn-primary"> Add To Librarian</button>
+                            <button type="submit" class="btn btn-primary m-1"> Add To Librarian</button>
                                 </form>
                                 <form method="post" asp-action="RemoveFromLibrarian" asp-route-id="@user.Id">
-                                    <button type="submit" class="btn btn-primary"> Remove From Librarian</button>
+                            <button type="submit" class="btn btn-primary m-1"> Remove From Librarian</button>
                                 </form>
                             </td> 
                 </tr>
@@ -59,10 +59,10 @@
 <!-- if (Model.Roles.Count() == 0) -->
 <!--{-->
     <form method="post" asp-action="CreateAdminRole">
-        <button type="submit" class="btn btn-primary"> Create Admin Role</button>
+        <button type="submit" class="btn btn-primary m-1"> Create Admin Role</button>
     </form>
     <form method="post" asp-action="CreateLibrarianRole">
-        <button type="submit" class="btn btn-primary"> Create Librarian Role</button>
+        <button type="submit" class="btn btn-primary  m-1"> Create Librarian Role</button>
     </form>
 <!--}-->
 <!--else-->
@@ -78,7 +78,7 @@
                     <td>@role.Name</td>
                     <td>
                         <form method="post" asp-action="DeleteRole" asp-route-id="@role.Id">
-                            <button type="submit" class="btn btn-primary"> Delete Role</button>
+                            <button type="submit" class="btn btn-primary m-1"> Delete Role</button>
                         </form>
                     </td>
                 </tr>
